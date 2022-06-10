@@ -8,4 +8,3 @@
 
 void AUTDModulationRawPCM(void** mod, char* filename, double sampling_freq, uint32_t mod_sampling_freq_div);
 void AUTDModulationWav(void** mod, char* filename, uint32_t mod_sampling_freq_div);
-

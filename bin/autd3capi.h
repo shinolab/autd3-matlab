@@ -74,13 +74,10 @@ void AUTDDeleteSTM(void* stm);
 int32_t AUTDStop(void* handle);
 void AUTDCreateSilencer(void** out, uint16_t step, uint16_t cycle);
 void AUTDDeleteSilencer(void* config);
-int32_t AUTDSendHeader(void* handle, void* header);
-int32_t AUTDSendBody(void* handle, void* body);
-int32_t AUTDSendHeaderBody(void* handle, void* header, void* body);
+int32_t AUTDSend(void* handle, void* header, void* body);
 void AUTDSetModDelay(void* handle, int32_t device_idx, int32_t local_trans_idx, uint16_t delay);
 void AUTDCreateModDelayConfig(void** out);
 void AUTDDeleteModDelayConfig(void* config);
 void AUTDCreateAmplitudes(void** out, void* handle, double amp);
 void AUTDDeleteAmplitudes(void* amplitudes);
 void AUTDSetMode(uint8_t mode);
-

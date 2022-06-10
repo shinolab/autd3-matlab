@@ -20,4 +20,3 @@ void AUTDGainHoloGreedy(void** gain, void* backend, int32_t phase_div);
 void AUTDGainHoloAdd(void* gain, double x, double y, double z, double amp);
 void AUTDSetConstraint(void* gain, int32_t type, void* param);
 void AUTDSetModeHolo(uint8_t mode);
-

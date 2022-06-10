@@ -4,7 +4,7 @@
 %Created Date: 07/06/2022
 %Author: Shun Suzuki
 %-----
-%Last Modified: 07/06/2022
+%Last Modified: 10/06/2022
 %Modified By: Shun Suzuki (suzuki@hapis.k.u-tokyo.ac.jp)
 %-----
 %Copyright (c) 2022 Shun Suzuki. All rights reserved.
@@ -15,8 +15,12 @@ addpath('autd3')
 
 Error = [];
 
+use_link_soem = true;
+use_link_twincat = false;
+use_backend_cuda = false;
+
 try
-    init_autd();
+    init_autd(use_link_soem, use_link_twincat, use_backend_cuda);
 
     adapters = SOEM.enumerate_adapters();
 
@@ -27,6 +31,11 @@ try
 
     prompt = 'Choose interface: ';
     i = input(prompt);
+
+    if ~isnumeric(i) || i > length(adapters)
+        throw(MException('MATLAB:BadIndex', 'Index out of range'));
+    end
+
     ifname = adapters(i, 2);
     link = SOEM(ifname, 1, 2, true);
 
@@ -35,8 +44,7 @@ try
 
     if ~cnt.open(link)
         disp(Controller.last_error());
-        deinit_autd();
-        return;
+        throw(MException('MATLAB:RuntimeError', 'Cannot open link'));
     end
 
     cnt.clear();
@@ -82,4 +90,4 @@ catch Error
 
 end
 
-deinit_autd();
+deinit_autd(use_link_soem, use_link_twincat, use_backend_cuda);

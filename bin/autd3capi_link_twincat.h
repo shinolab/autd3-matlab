@@ -6,5 +6,4 @@
 #include <stdint.h>
 #endif
 
-void AUTDLinkTwinCAT(void** out, uint16_t cycle_ticks);
-
+void AUTDLinkTwinCAT(void** out);

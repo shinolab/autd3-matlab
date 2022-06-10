@@ -7,4 +7,3 @@
 #endif
 
 void AUTDLinkEmulator(void** out, uint16_t port, void* cnt);
-

@@ -7,4 +7,3 @@
 #endif
 
 void AUTDCUDABackend(void** out);
-

@@ -4,7 +4,7 @@
 %Created Date: 07/06/2022
 %Author: Shun Suzuki
 %-----
-%Last Modified: 07/06/2022
+%Last Modified: 10/06/2022
 %Modified By: Shun Suzuki (suzuki@hapis.k.u-tokyo.ac.jp)
 %-----
 %Copyright (c) 2022 Shun Suzuki. All rights reserved.
@@ -15,6 +15,11 @@ classdef Controller < handle
 
     properties
         ptr
+        reads_fpga_info = false
+        force_fan = false
+        attenuation = 0.0
+        check_ack = false
+        sound_speed = 340
     end
 
     methods
@@ -45,8 +50,125 @@ classdef Controller < handle
             res = calllib('autd3capi', 'AUTDSynchronize', obj.ptr);
         end
 
+        function res = stop(obj)
+            res = calllib('autd3capi', 'AUTDStop', obj.ptr);
+        end
+
         function res = close(obj)
             res = calllib('autd3capi', 'AUTDClose', obj.ptr);
+        end
+
+        function res = is_open(obj)
+            res = calllib('autd3capi', 'AUTDIsOpen', obj.ptr);
+        end
+
+        function set.force_fan(obj, value)
+            obj.force_fan = value;
+            calllib('autd3capi', 'AUTDSetForceFan', obj.ptr, value);
+        end
+
+        function value = get.force_fan(obj)
+            value = calllib('autd3capi', 'AUTDGetForceFan', obj.ptr);
+        end
+
+        function set.reads_fpga_info(obj, value)
+            obj.reads_fpga_info = value;
+            calllib('autd3capi', 'AUTDSetReadsFPGAInfo', obj.ptr, value);
+        end
+
+        function value = get.reads_fpga_info(obj)
+            value = calllib('autd3capi', 'AUTDGetReadsFPGAInfo', obj.ptr);
+        end
+
+        function set.check_ack(obj, value)
+            obj.check_ack = value;
+            calllib('autd3capi', 'AUTDeStCheckAck', obj.ptr, value);
+        end
+
+        function value = get.check_ack(obj)
+            value = calllib('autd3capi', 'AUTDGetCheckAck', obj.ptr);
+        end
+
+        function set.sound_speed(obj, value)
+            obj.sound_speed = value;
+            calllib('autd3capi', 'AUTDSetSoundSpeed', obj.ptr, value);
+        end
+
+        function value = get.sound_speed(obj)
+            value = calllib('autd3capi', 'AUTDGetSoundSpeed', obj.ptr);
+        end
+
+        function set.attenuation(obj, value)
+            obj.attenuation = value;
+            calllib('autd3capi', 'AUTDSetAttenuation', obj.ptr, value);
+        end
+
+        function value = get.attenuation(obj)
+            value = calllib('autd3capi', 'AUTDGetAttenuation', obj.ptr);
+        end
+
+        function freq = get_trans_frequency(obj, dev_idx, trans_idx)
+            freq = calllib('autd3capi', 'AUTDGetTransFrequency', obj.ptr, dev_idx, trans_idx);
+        end
+
+        function set_trans_frequency(obj, dev_idx, trans_idx, freq)
+            calllib('autd3capi', 'AUTDSetTransFrequency', obj.ptr, dev_idx, trans_idx, freq);
+        end
+
+        function cycle = get_trans_cycle(obj, dev_idx, trans_idx)
+            cycle = calllib('autd3capi', 'AUTDGetTransCycle', obj.ptr, dev_idx, trans_idx);
+        end
+
+        function set_trans_cycle(obj, dev_idx, trans_idx, cycle)
+            calllib('autd3capi', 'AUTDSetTransCycle', obj.ptr, dev_idx, trans_idx, cycle);
+        end
+
+        function wavelength = wavelength(obj, dev_idx, trans_idx)
+            wavelength = calllib('autd3capi', 'AUTDGetWavelength', obj.ptr, dev_idx, trans_idx, obj.sound_speed);
+        end
+
+        function set_mod_delay(obj, dev_idx, trans_idx, delay)
+            calllib('autd3capi', 'AUTDSetModDelay', obj.ptr, dev_idx, trans_idx, delay);
+        end
+
+        function pos = trans_position(obj, dev_idx, trans_idx)
+            px = libpointer('doublePtr', 0);
+            py = libpointer('doublePtr', 0);
+            pz = libpointer('doublePtr', 0);
+            calllib('autd3capi', 'AUTDTransPosition', obj.ptr, dev_idx, trans_idx, px, py, pz);
+            pos = [px.Value; py.Value; pz.Value];
+        end
+
+        function dir = trans_x_direction(obj, dev_idx, trans_idx)
+            px = libpointer('doublePtr', 0);
+            py = libpointer('doublePtr', 0);
+            pz = libpointer('doublePtr', 0);
+            calllib('autd3capi', 'AUTDTransXDirection', obj.ptr, dev_idx, trans_idx, px, py, pz);
+            dir = [px.Value; py.Value; pz.Value];
+        end
+
+        function dir = trans_y_direction(obj, dev_idx, trans_idx)
+            px = libpointer('doublePtr', 0);
+            py = libpointer('doublePtr', 0);
+            pz = libpointer('doublePtr', 0);
+            calllib('autd3capi', 'AUTDTransYDirection', obj.ptr, dev_idx, trans_idx, px, py, pz);
+            dir = [px.Value; py.Value; pz.Value];
+        end
+
+        function dir = trans_z_direction(obj, dev_idx, trans_idx)
+            px = libpointer('doublePtr', 0);
+            py = libpointer('doublePtr', 0);
+            pz = libpointer('doublePtr', 0);
+            calllib('autd3capi', 'AUTDTransZDirection', obj.ptr, dev_idx, trans_idx, px, py, pz);
+            dir = [px.Value; py.Value; pz.Value];
+        end
+
+        function res = num_devices(obj)
+            res = calllib('autd3capi', 'AUTDNumDevices', obj.ptr);
+        end
+
+        function res = update_flags(obj)
+            res = calllib('autd3capi', 'AUTDUpdateFlags', obj.ptr);
         end
 
         function res = send(varargin)
@@ -60,12 +182,12 @@ classdef Controller < handle
             if nargin == 3
 
                 if isa(varargin{2}, 'Header') && isa(varargin{3}, 'Body')
-                    res = calllib('autd3capi', 'AUTDSendHeaderBody', obj.ptr, varargin{2}.ptr, varargin{3}.ptr);
+                    res = calllib('autd3capi', 'AUTDSend', obj.ptr, varargin{2}.ptr, varargin{3}.ptr);
                     return;
                 end
 
                 if isa(varargin{3}, 'Header') && isa(varargin{2}, 'Body')
-                    res = calllib('autd3capi', 'AUTDSendHeaderBody', obj.ptr, varargin{3}.ptr, varargin{2}.ptr);
+                    res = calllib('autd3capi', 'AUTDSend', obj.ptr, varargin{3}.ptr, varargin{2}.ptr);
                     return;
                 end
 
@@ -74,13 +196,14 @@ classdef Controller < handle
             if nargin == 2
 
                 if isa(varargin{2}, 'Header')
-                    res = calllib('autd3capi', 'AUTDSendHeader', obj.ptr, varargin{2}.ptr);
+                    np = libpointer('voidPtr', 0);
+                    res = calllib('autd3capi', 'AUTDSend', obj.ptr, varargin{2}.ptr, np);
                     return;
                 end
 
                 if isa(varargin{2}, 'Body')
-
-                    res = calllib('autd3capi', 'AUTDSendBody', obj.ptr, varargin{2}.ptr);
+                    np = libpointer('voidPtr', 0);
+                    res = calllib('autd3capi', 'AUTDSend', obj.ptr, np, varargin{2}.ptr);
                     return;
                 end
 
@@ -103,6 +226,12 @@ classdef Controller < handle
             end
 
             calllib('autd3capi', 'AUTDFreeFirmwareInfoListPointer', p);
+        end
+
+        function list = fpga_info(obj)
+            n = obj.num_devices();
+            info_p = libpointer('uint8Ptr', zeros(n, 1, 'uint8'));
+            calllib('autd3capi', 'AUTDGetFPGAInfo', obj.ptr, info_p);
         end
 
         function delete(obj)
