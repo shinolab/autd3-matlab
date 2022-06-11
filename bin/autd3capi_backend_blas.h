@@ -13,4 +13,4 @@ typedef long int64_t;
 typedef unsigned long uint64_t;
 #endif
 
-void AUTDLinkTwinCAT(void** out);
+void AUTDBLASBackend(void** out);
