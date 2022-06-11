@@ -4,7 +4,7 @@
 %Created Date: 07/06/2022
 %Author: Shun Suzuki
 %-----
-%Last Modified: 10/06/2022
+%Last Modified: 11/06/2022
 %Modified By: Shun Suzuki (suzuki@hapis.k.u-tokyo.ac.jp)
 %-----
 %Copyright (c) 2022 Shun Suzuki. All rights reserved.
@@ -167,7 +167,7 @@ classdef Controller < handle
             res = calllib('autd3capi', 'AUTDNumDevices', obj.ptr);
         end
 
-        function res = update_flags(obj)
+        function res = update_flag(obj)
             res = calllib('autd3capi', 'AUTDUpdateFlags', obj.ptr);
         end
 
@@ -196,13 +196,13 @@ classdef Controller < handle
             if nargin == 2
 
                 if isa(varargin{2}, 'Header')
-                    np = libpointer('voidPtr', 0);
+                    np = libpointer('voidPtr', []);
                     res = calllib('autd3capi', 'AUTDSend', obj.ptr, varargin{2}.ptr, np);
                     return;
                 end
 
                 if isa(varargin{2}, 'Body')
-                    np = libpointer('voidPtr', 0);
+                    np = libpointer('voidPtr', []);
                     res = calllib('autd3capi', 'AUTDSend', obj.ptr, np, varargin{2}.ptr);
                     return;
                 end
@@ -248,7 +248,7 @@ classdef Controller < handle
     methods (Static)
 
         function error = last_error()
-            pn = libpointer('int8Ptr', 0);
+            pn = libpointer('int8Ptr', []);
             n = calllib('autd3capi', 'AUTDGetLastError', pn);
             p = libpointer('int8Ptr', zeros(n, 1, 'int8'));
             calllib('autd3capi', 'AUTDGetLastError', p);

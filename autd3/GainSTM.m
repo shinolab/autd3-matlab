@@ -4,7 +4,7 @@
 %Created Date: 10/06/2022
 %Author: Shun Suzuki
 %-----
-%Last Modified: 10/06/2022
+%Last Modified: 11/06/2022
 %Modified By: Shun Suzuki (suzuki@hapis.k.u-tokyo.ac.jp)
 %-----
 %Copyright (c) 2022 Shun Suzuki. All rights reserved.
@@ -30,11 +30,11 @@ classdef GainSTM < STM
             calllib('autd3capi', 'AUTDSetGainSTMMode', obj.ptr, uint16(value));
         end
 
-        function mode = get.mode(obj, value)
+        function mode = get.mode(obj)
             mode = Mode(calllib('autd3capi', 'AUTDGetGainSTMMode', obj.ptr));
         end
 
-        function add(gain)
+        function add(obj, gain)
             calllib('autd3capi', 'AUTDGainSTMAdd', obj.ptr, gain.ptr);
         end
 

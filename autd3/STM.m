@@ -4,7 +4,7 @@
 %Created Date: 10/06/2022
 %Author: Shun Suzuki
 %-----
-%Last Modified: 10/06/2022
+%Last Modified: 11/06/2022
 %Modified By: Shun Suzuki (suzuki@hapis.k.u-tokyo.ac.jp)
 %-----
 %Copyright (c) 2022 Shun Suzuki. All rights reserved.
@@ -29,7 +29,7 @@ classdef STM < Body
             calllib('autd3capi', 'AUTDSTMSetFrequency', obj.ptr, value);
         end
 
-        function freq = get.freqeuncy(obj, value)
+        function freq = get.freqeuncy(obj)
             freq = calllib('autd3capi', 'AUTDSTMFrequency', obj.ptr);
         end
 
@@ -38,7 +38,7 @@ classdef STM < Body
             calllib('autd3capi', 'AUTDSTMSetSamplingFrequencyDivision', obj.ptr, value);
         end
 
-        function div = get.sampling_frequency_division(obj, value)
+        function div = get.sampling_frequency_division(obj)
             div = calllib('autd3capi', 'AUTDSTMSamplingFrequencyDivision', obj.ptr);
         end
 

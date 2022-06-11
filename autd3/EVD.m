@@ -26,7 +26,7 @@ classdef EVD < Holo
             end
 
             pp = libpointer('voidPtrPtr', obj.ptr);
-            calllib('autd3capi_gain_holo', 'AUTDGainHoloEVD', pp, backend, gamma);
+            calllib('autd3capi_gain_holo', 'AUTDGainHoloEVD', pp, backend.ptr, gamma);
         end
 
     end

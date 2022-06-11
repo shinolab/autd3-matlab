@@ -1,10 +1,10 @@
 %{
-%File: simple.m
+%File: soem.m
 %Project: autd3-matlab
-%Created Date: 07/06/2022
+%Created Date: 11/06/2022
 %Author: Shun Suzuki
 %-----
-%Last Modified: 10/06/2022
+%Last Modified: 11/06/2022
 %Modified By: Shun Suzuki (suzuki@hapis.k.u-tokyo.ac.jp)
 %-----
 %Copyright (c) 2022 Shun Suzuki. All rights reserved.
@@ -24,15 +24,16 @@ try
 
     adapters = SOEM.enumerate_adapters();
 
+    adapters_list = strings(length(adapters));
+
     for i = 1:length(adapters)
         s = sprintf('[%d]: %s, %s', i, adapters(i, 1), adapters(i, 2));
-        disp(s);
+        adapters_list(i) = s;
     end
 
-    prompt = 'Choose interface: ';
-    i = input(prompt);
+    [i, ok] = listdlg('ListString', adapters_list, 'PromptString', 'Select one interface', 'SelectionMode', 'single', 'ListSize', [600, 600]);
 
-    if ~isnumeric(i) || i > length(adapters)
+    if ~ok || ~isnumeric(i) || i > length(adapters)
         throw(MException('MATLAB:BadIndex', 'Index out of range'));
     end
 
@@ -47,41 +48,7 @@ try
         throw(MException('MATLAB:RuntimeError', 'Cannot open link'));
     end
 
-    cnt.clear();
-    cnt.synchronize();
-
-    firm_list = cnt.firmware_info_list();
-
-    for i = 1:length(firm_list)
-        disp(firm_list(i));
-    end
-
-    config = SilencerConfig(10, 4096);
-    cnt.send(config);
-    config.delete();
-
-    TRANS_SPACING_MM = 10.16;
-    NUM_TRANS_X = 18;
-    NUM_TRANS_Y = 14;
-    x = TRANS_SPACING_MM * ((NUM_TRANS_X - 1.0) / 2.0);
-    y = TRANS_SPACING_MM * ((NUM_TRANS_Y - 1.0) / 2.0);
-    z = 150.0;
-
-    g = Focus([x y z]);
-    m = Sine(150);
-
-    cnt.send(m, g);
-
-    g.delete();
-    m.delete();
-
-    prompt = 'press any key to finish...';
-    input(prompt);
-
-    cnt.clear();
-    cnt.close();
-
-    cnt.delete();
+    runner(cnt);
 catch Error
 
     for e = Error

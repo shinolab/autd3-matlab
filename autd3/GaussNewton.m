@@ -4,7 +4,7 @@
 %Created Date: 10/06/2022
 %Author: Shun Suzuki
 %-----
-%Last Modified: 10/06/2022
+%Last Modified: 11/06/2022
 %Modified By: Shun Suzuki (suzuki@hapis.k.u-tokyo.ac.jp)
 %-----
 %Copyright (c) 2022 Shun Suzuki. All rights reserved.
@@ -38,7 +38,7 @@ classdef GaussNewton < Holo
             end
 
             if nargin < 5
-                initial = libpointer('voidPtr', 0);
+                initial = libpointer('voidPtr', []);
                 initial_size = 0;
             else
                 initial = libpointer('voidPtr', varargin{5});
@@ -46,7 +46,7 @@ classdef GaussNewton < Holo
             end
 
             pp = libpointer('voidPtrPtr', obj.ptr);
-            calllib('autd3capi_gain_holo', 'AUTDGainHoloGaussNewton', pp, backend, eps_1, eps_2, k_max, initial, initial_size);
+            calllib('autd3capi_gain_holo', 'AUTDGainHoloGaussNewton', pp, backend.ptr, eps_1, eps_2, k_max, initial, initial_size);
         end
 
     end
