@@ -16,11 +16,10 @@ addpath('autd3')
 Error = [];
 
 use_link_soem = true;
-use_link_twincat = false;
 use_backend_cuda = false;
 
 try
-    init_autd(use_link_soem, use_link_twincat, use_backend_cuda);
+    init_autd(use_link_soem, use_backend_cuda);
 
     adapters = SOEM.enumerate_adapters();
 
@@ -57,4 +56,4 @@ catch Error
 
 end
 
-deinit_autd(use_link_soem, use_link_twincat, use_backend_cuda);
+deinit_autd(use_link_soem, use_backend_cuda);
