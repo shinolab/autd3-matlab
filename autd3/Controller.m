@@ -4,7 +4,7 @@
 %Created Date: 07/06/2022
 %Author: Shun Suzuki
 %-----
-%Last Modified: 11/06/2022
+%Last Modified: 22/06/2022
 %Modified By: Shun Suzuki (suzuki@hapis.k.u-tokyo.ac.jp)
 %-----
 %Copyright (c) 2022 Shun Suzuki. All rights reserved.
@@ -18,7 +18,8 @@ classdef Controller < handle
         reads_fpga_info = false
         force_fan = false
         attenuation = 0.0
-        check_ack = false
+        check_trials = 0
+        send_interval = 1
         sound_speed = 340
     end
 
@@ -80,13 +81,22 @@ classdef Controller < handle
             value = calllib('autd3capi', 'AUTDGetReadsFPGAInfo', obj.ptr);
         end
 
-        function set.check_ack(obj, value)
-            obj.check_ack = value;
-            calllib('autd3capi', 'AUTDeStCheckAck', obj.ptr, value);
+        function set.check_trials(obj, value)
+            obj.check_trials = value;
+            calllib('autd3capi', 'AUTDeSetCheckTrials', obj.ptr, value);
         end
 
-        function value = get.check_ack(obj)
-            value = calllib('autd3capi', 'AUTDGetCheckAck', obj.ptr);
+        function value = get.check_trials(obj)
+            value = calllib('autd3capi', 'AUTDGetCheckTrials', obj.ptr);
+        end
+
+        function set.send_interval(obj, value)
+            obj.send_interval = value;
+            calllib('autd3capi', 'AUTDeSetSendInterval', obj.ptr, value);
+        end
+
+        function value = get.send_interval(obj)
+            value = calllib('autd3capi', 'AUTDGetSendInterval', obj.ptr);
         end
 
         function set.sound_speed(obj, value)
@@ -124,7 +134,7 @@ classdef Controller < handle
         end
 
         function wavelength = wavelength(obj, dev_idx, trans_idx)
-            wavelength = calllib('autd3capi', 'AUTDGetWavelength', obj.ptr, dev_idx, trans_idx, obj.sound_speed);
+            wavelength = calllib('autd3capi', 'AUTDGetWavelength', obj.ptr, dev_idx, trans_idx);
         end
 
         function set_mod_delay(obj, dev_idx, trans_idx, delay)

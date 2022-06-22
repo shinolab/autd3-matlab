@@ -4,7 +4,7 @@
 %Created Date: 11/06/2022
 %Author: Shun Suzuki
 %-----
-%Last Modified: 11/06/2022
+%Last Modified: 22/06/2022
 %Modified By: Shun Suzuki (suzuki@hapis.k.u-tokyo.ac.jp)
 %-----
 %Copyright (c) 2022 Shun Suzuki. All rights reserved.
@@ -24,8 +24,6 @@ function holo(cnt)
         "GSPAT(x)", "GSPAT"
         "Naive(x)", "Naive"
         "LM(x)", "LM"
-        "GaussNewton(x)", "GaussNewton"
-        "GradientDescent(x)", "GradientDescent"
         "Greedy(x)", "Greedy"];
     n = size(opts, 1);
     opt_names = strings(n);

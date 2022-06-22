@@ -1,4 +1,5 @@
 // This file was automatically generated from header file
+
 typedef char int8_t;
 typedef unsigned char uint8_t;
 typedef short int16_t;
@@ -25,9 +26,11 @@ void AUTDFreeController(void* handle);
 bool AUTDIsOpen(void* handle);
 bool AUTDGetForceFan(void* handle);
 bool AUTDGetReadsFPGAInfo(void* handle);
-bool AUTDGetCheckAck(void* handle);
+int32_t AUTDGetCheckTrials(void* handle);
+int32_t AUTDGetSendInterval(void* handle);
 void AUTDSetReadsFPGAInfo(void* handle, bool reads_fpga_info);
-void AUTDSetCheckAck(void* handle, bool check_ack);
+void AUTDSetCheckTrials(void* handle, int32_t trials);
+void AUTDSetSendInterval(void* handle, int32_t interval);
 void AUTDSetForceFan(void* handle, bool force);
 double AUTDGetSoundSpeed(void* handle);
 void AUTDSetSoundSpeed(void* handle, double sound_speed);
@@ -35,7 +38,7 @@ double AUTDGetTransFrequency(void* handle, int32_t device_idx, int32_t local_tra
 void AUTDSetTransFrequency(void* handle, int32_t device_idx, int32_t local_trans_idx, double frequency);
 uint16_t AUTDGetTransCycle(void* handle, int32_t device_idx, int32_t local_trans_idx);
 void AUTDSetTransCycle(void* handle, int32_t device_idx, int32_t local_trans_idx, uint16_t cycle);
-double AUTDGetWavelength(void* handle, int32_t device_idx, int32_t local_trans_idx, double sound_speed);
+double AUTDGetWavelength(void* handle, int32_t device_idx, int32_t local_trans_idx);
 double AUTDGetAttenuation(void* handle);
 void AUTDSetAttenuation(void* handle, double attenuation);
 bool AUTDGetFPGAInfo(void* handle, uint8_t* out);

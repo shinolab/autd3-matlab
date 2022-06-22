@@ -4,7 +4,7 @@
 %Created Date: 07/06/2022
 %Author: Shun Suzuki
 %-----
-%Last Modified: 11/06/2022
+%Last Modified: 22/06/2022
 %Modified By: Shun Suzuki (suzuki@hapis.k.u-tokyo.ac.jp)
 %-----
 %Copyright (c) 2022 Shun Suzuki. All rights reserved.
@@ -28,10 +28,10 @@ function init_autd(use_link_soem, use_link_twincat, use_backend_cuda)
     if ispc
 
         if ~isfile('bin/autd3capi.dll')
-            url = 'https://github.com/shinolab/autd3/releases/download/v2.2.0/autd3-v2.2.0-win-x64.zip';
-            websave('autd3-v2.2.0-win-x64.zip', url);
-            unzip('autd3-v2.2.0-win-x64.zip');
-            delete('autd3-v2.2.0-win-x64.zip');
+            url = 'https://github.com/shinolab/autd3/releases/download/v2.2.1/autd3-v2.2.1-win-x64.zip';
+            websave('autd3-v2.2.1-win-x64.zip', url);
+            unzip('autd3-v2.2.1-win-x64.zip');
+            delete('autd3-v2.2.1-win-x64.zip');
             delete('LICENSE');
             delete('NOTICE');
             rmdir('lib', 's');
@@ -76,10 +76,10 @@ function init_autd(use_link_soem, use_link_twincat, use_backend_cuda)
     elseif ismac
 
         if ~isfile('bin/autd3capi.dylib')
-            url = 'https://github.com/shinolab/autd3/releases/download/v2.2.0/autd3-v2.2.0-macos-universal.tar.gz';
-            websave('autd3-v2.2.0-macos-universal.tar.gz', url);
-            untar('autd3-v2.2.0-macos-universal.tar.gz');
-            delete('autd3-v2.2.0-macos-universal.tar.gz');
+            url = 'https://github.com/shinolab/autd3/releases/download/v2.2.1/autd3-v2.2.1-macos-universal.tar.gz';
+            websave('autd3-v2.2.1-macos-universal.tar.gz', url);
+            untar('autd3-v2.2.1-macos-universal.tar.gz');
+            delete('autd3-v2.2.1-macos-universal.tar.gz');
             delete('LICENSE');
             delete('NOTICE');
             rmdir('lib', 's');
@@ -119,10 +119,10 @@ function init_autd(use_link_soem, use_link_twincat, use_backend_cuda)
     elseif isunix
 
         if ~isfile('bin/autd3capi.so')
-            url = 'https://github.com/shinolab/autd3/releases/download/v2.2.0/autd3-v2.2.0-linux-x64.tar.gz';
-            websave('autd3-v2.2.0-linux-x64.tar.gz', url);
-            untar('autd3-v2.2.0-linux-x64.tar.gz');
-            delete('autd3-v2.2.0-linux-x64.tar.gz');
+            url = 'https://github.com/shinolab/autd3/releases/download/v2.2.1/autd3-v2.2.1-linux-x64.tar.gz';
+            websave('autd3-v2.2.1-linux-x64.tar.gz', url);
+            untar('autd3-v2.2.1-linux-x64.tar.gz');
+            delete('autd3-v2.2.1-linux-x64.tar.gz');
             delete('LICENSE');
             delete('NOTICE');
             rmdir('lib', 's');
